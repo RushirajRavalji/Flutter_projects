@@ -1,27 +1,37 @@
-import 'package:flutter/material.dart';
-import 'package:rolldice/dice_roller.dart';
+import 'package:flutter/material.dart'; // Importing Flutter's core UI components
+import 'package:rolldice/dice_roller.dart'; // Importing the diceRoller widget from roll_dice.dart
 
-var startAlignment = Alignment.topLeft;
-var endAlignment = Alignment.bottomRight;
+// Alignment for the gradient start and end points
+var startAlignment =
+    Alignment.topLeft; // Gradient starts from the top-left corner
+var endAlignment =
+    Alignment.bottomRight; // Gradient ends at the bottom-right corner
 
 class GradiendContainer extends StatelessWidget {
-  const GradiendContainer({super.key});
+  // Stateless widget because it does not change
+  const GradiendContainer({super.key}); // Constructor for the widget
 
   @override
   Widget build(context) {
+    // Describes the part of the UI represented by this widget
     return Container(
+      // Container to hold the gradient background
       decoration: BoxDecoration(
+        // Applies decoration to the container
         gradient: LinearGradient(
+          // Linear gradient for background color transition
           colors: [
-            Color.fromARGB(255, 241, 188, 109),
-            Color.fromARGB(255, 241, 234, 109),
+            // Colors for the gradient
+            Color.fromARGB(255, 241, 188, 109), // Orange-yellow color
+            Color.fromARGB(255, 241, 234, 109), // Light yellow color
           ],
-          begin: startAlignment,
-          end: endAlignment,
+          begin: startAlignment, // Starting point of the gradient
+          end: endAlignment, // Ending point of the gradient
         ),
       ),
       child: Center(
-        child: diceRoller(),
+        // Centers the child widget within the container
+        child: diceRoller(), // Embeds the diceRoller widget as a child
       ),
     );
   }
