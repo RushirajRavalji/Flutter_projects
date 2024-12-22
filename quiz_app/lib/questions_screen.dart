@@ -3,7 +3,9 @@ import 'package:quiz_app/models/answer_button.dart';
 import 'package:quiz_app/data/questions.dart';
 
 class QuestionsScreen extends StatefulWidget {
-  const QuestionsScreen({super.key});
+  const QuestionsScreen({super.key, required this.onSelectedAnswer});
+
+  final void Function(String answer) onSelectedAnswer;
 
   @override
   State<QuestionsScreen> createState() {
@@ -12,9 +14,30 @@ class QuestionsScreen extends StatefulWidget {
 }
 
 class _QuestionsScreenState extends State<QuestionsScreen> {
+  var currentQuestionsIndex = 0;
+  List<String> shuffledAnswers = [];
+
+  @override
+  void initState() {
+    super.initState();
+    shuffledAnswers = questons[currentQuestionsIndex].getShuffledAnswers();
+  }
+
+  void answerQuestion(String selectedAnswer) {
+    widget.onSelectedAnswer(selectedAnswer);
+    if (currentQuestionsIndex < questons.length - 1) {
+      setState(() {
+        currentQuestionsIndex++;
+        shuffledAnswers = questons[currentQuestionsIndex].getShuffledAnswers();
+      });
+    } else {
+      print('Quiz finished!');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final currentQuestion = questons[0];
+    final currentQuestion = questons[currentQuestionsIndex];
 
     return SizedBox(
       width: double.infinity,
@@ -33,10 +56,12 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
               SizedBox(
                 height: 30,
               ),
-              ...currentQuestion.getShuffledAnswers().map((item) {
+              ...shuffledAnswers.map((item) {
                 return AnswerButton(
                   answerText: item,
-                  onTap: () {},
+                  onTap: () {
+                    answerQuestion(item);
+                  },
                 );
               }).toList(),
             ],
