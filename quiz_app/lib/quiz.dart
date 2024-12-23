@@ -27,8 +27,7 @@ class _QuizState extends State<Quiz> {
   void chooseAnswer(String answer) {
     setState(() {
       selectedAnswers.add(answer);
-
-      if (selectedAnswers.length == questons.length) {
+      if (selectedAnswers.length == questions.length) {
         setState(() {
           activeScreen = 'results-screen';
         });
@@ -36,18 +35,26 @@ class _QuizState extends State<Quiz> {
     });
   }
 
+  // Function to restart the quiz
+  void restartQuiz() {
+    setState(() {
+      selectedAnswers = [];
+      activeScreen = 'start-screen'; // Reset to the start screen
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     Widget screenWidget = StartScreen(switchScreen);
     if (activeScreen == 'questions-screen') {
-      screenWidget = QuestionsScreen(
-        onSelectedAnswer: chooseAnswer,
-      );
+      screenWidget = QuestionsScreen(onSelectedAnswer: chooseAnswer);
     }
 
     if (activeScreen == 'results-screen') {
       screenWidget = ResultsScreen(
         chosenAnswers: selectedAnswers,
+        onRestart:
+            restartQuiz, // Pass the restart function to the ResultsScreen
       );
     }
 

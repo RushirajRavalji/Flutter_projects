@@ -14,7 +14,13 @@ class AnswerButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: onTap,
-      child: Text(answerText  ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 12.0),
+        child: Text(
+          answerText,
+          textAlign: TextAlign.center, // Center the text inside the button
+        ),
+      ),
     );
   }
 }

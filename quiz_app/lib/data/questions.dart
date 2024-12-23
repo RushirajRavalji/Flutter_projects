@@ -1,9 +1,9 @@
 import 'package:quiz_app/models/quiz_questions.dart';
 
-const questons = [
+const questions = [
   QuizQuestions(
     'What are the main building blocks of flutter UI ?',
-    ['Widgets', 'Components', 'Blocks', 'Funtions'],
+    ['Widgets', 'Components', 'Blocks', 'Functions'],
   ),
   QuizQuestions(
     'Which language is primarily used for Flutter development?',
