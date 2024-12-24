@@ -3,7 +3,8 @@ import 'package:quiz_app/models/answer_button.dart';
 import 'package:quiz_app/data/questions.dart';
 
 class QuestionsScreen extends StatefulWidget {
-  final void Function(String answer) onSelectedAnswer;
+  final void Function(String answer)
+      onSelectedAnswer; // Callback function to handle answer selection
 
   const QuestionsScreen({Key? key, required this.onSelectedAnswer})
       : super(key: key);
@@ -13,61 +14,63 @@ class QuestionsScreen extends StatefulWidget {
 }
 
 class _QuestionsScreenState extends State<QuestionsScreen> {
-  int currentQuestionIndex = 0; // Keeps track of the current question index
+  int currentQuestionIndex = 0; // Tracks the index of the current question
   List<String> shuffledAnswers =
-      []; // Shuffled answers for the current question
+      []; // Holds shuffled answers for the current question
 
   @override
   void initState() {
     super.initState();
     shuffledAnswers = questions[currentQuestionIndex]
-        .getShuffledAnswers(); // Initialize the shuffled answers
+        .getShuffledAnswers(); // Initialize shuffled answers for the first question
   }
 
   void answerQuestion(String selectedAnswer) {
     widget.onSelectedAnswer(
-        selectedAnswer); // Notify the parent widget of the selected answer
+        selectedAnswer); // Pass selected answer to the parent widget
     if (currentQuestionIndex < questions.length - 1) {
-      // If more questions are left
       setState(() {
         currentQuestionIndex++; // Move to the next question
         shuffledAnswers = questions[currentQuestionIndex]
-            .getShuffledAnswers(); // Shuffle the next question's answers
+            .getShuffledAnswers(); // Shuffle answers for the next question
       });
     } else {
-      print('Quiz finished!'); // When all questions are answered
+      print('Quiz finished!'); // Log when all questions are answered
     }
   }
 
   @override
-  @override
   Widget build(BuildContext context) {
-    final currentQuestion = questions[currentQuestionIndex];
+    final currentQuestion =
+        questions[currentQuestionIndex]; // Get the current question
 
     return SizedBox(
-      width: double.infinity,
+      width: double.infinity, // Take full screen width
       child: Padding(
         padding: const EdgeInsets.all(40.0),
         child: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment:
+                MainAxisAlignment.center, // Center elements vertically
+            crossAxisAlignment: CrossAxisAlignment
+                .stretch, // Stretch elements to fill horizontal space
             children: [
               SingleChildScrollView(
-                scrollDirection: Axis.horizontal, // Allow horizontal scrolling
+                scrollDirection:
+                    Axis.horizontal, // Allow horizontal scrolling if needed
                 child: Text(
-                  currentQuestion.text,
-                  style: TextStyle(fontSize: 20),
-                  textAlign: TextAlign.center,
+                  currentQuestion.text, // Display question text
+                  style: TextStyle(fontSize: 20), // Set font size
+                  textAlign: TextAlign.center, // Center align text
                 ),
               ),
-              SizedBox(height: 30),
+              SizedBox(height: 30), // Add spacing
               ...shuffledAnswers.map((item) {
+                // Create answer buttons dynamically
                 return AnswerButton(
-                  answerText: item,
-                  onTap: () {
-                    answerQuestion(item);
-                  },
+                  answerText: item, // Set the button text to the answer
+                  onTap: () => answerQuestion(
+                      item), // Pass selected answer to the handler
                 );
               }).toList(),
             ],

@@ -8,58 +8,51 @@ class Quiz extends StatefulWidget {
   const Quiz({super.key});
 
   @override
-  State<Quiz> createState() {
-    return _QuizState();
-  }
+  State<Quiz> createState() => _QuizState();
 }
 
 class _QuizState extends State<Quiz> {
-  List<String> selectedAnswers = [];
-  var activeScreen = 'start-screen';
+  List<String> selectedAnswers = []; // Tracks selected answers
+  var activeScreen = 'start-screen'; // Tracks the active screen
 
   void switchScreen() {
     setState(() {
-      selectedAnswers = [];
-      activeScreen = 'questions-screen';
+      selectedAnswers = []; // Reset answers when switching
+      activeScreen = 'questions-screen'; // Set active screen to question screen
     });
   }
 
   void chooseAnswer(String answer) {
     setState(() {
-      selectedAnswers.add(answer);
+      selectedAnswers.add(answer); // Add selected answer
       if (selectedAnswers.length == questions.length) {
-        setState(() {
-          activeScreen = 'results-screen';
-        });
+        activeScreen =
+            'results-screen'; // Navigate to results screen after last question
       }
     });
   }
 
-  // Function to restart the quiz
   void restartQuiz() {
     setState(() {
-      selectedAnswers = [];
-      activeScreen = 'start-screen'; // Reset to the start screen
+      selectedAnswers = []; // Clear previous answers
+      activeScreen = 'start-screen'; // Reset to start screen
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    Widget screenWidget = StartScreen(switchScreen);
+    Widget screenWidget = StartScreen(switchScreen); // Default to start screen
     if (activeScreen == 'questions-screen') {
-      screenWidget = QuestionsScreen(onSelectedAnswer: chooseAnswer);
-    }
-
-    if (activeScreen == 'results-screen') {
+      screenWidget = QuestionsScreen(
+          onSelectedAnswer: chooseAnswer); // Display question screen
+    } else if (activeScreen == 'results-screen') {
       screenWidget = ResultsScreen(
-        chosenAnswers: selectedAnswers,
-        onRestart:
-            restartQuiz, // Pass the restart function to the ResultsScreen
-      );
+          chosenAnswers: selectedAnswers,
+          onRestart: restartQuiz); // Display results screen
     }
 
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: false, // Disable debug banner
       home: Scaffold(
         body: Container(
           decoration: BoxDecoration(
@@ -68,11 +61,11 @@ class _QuizState extends State<Quiz> {
                 Color.fromARGB(255, 199, 246, 226),
                 Color.fromARGB(255, 178, 235, 217),
               ],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
+              begin: Alignment.topCenter, // Gradient starts at the top
+              end: Alignment.bottomCenter, // Gradient ends at the bottom
             ),
           ),
-          child: screenWidget,
+          child: screenWidget, // Display active screen
         ),
       ),
     );

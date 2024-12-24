@@ -1,37 +1,24 @@
 import 'package:flutter/material.dart';
 
+// The initial screen of the app, which allows the user to start the quiz.
 class StartScreen extends StatelessWidget {
-  const StartScreen(this.startQuiz, {Key? key});
+  const StartScreen(this.startQuiz, {Key? key}) : super(key: key);
 
-  final void Function() startQuiz;
+  final void Function() startQuiz; // Callback function to start the quiz
 
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset(
-            'assets/images/quiz-logo.png', // Logo image for the quiz
-            width: 250,
-          ),
-          SizedBox(height: 80),
-          Text(
-            "Let's Learn Flutter",
-            style: TextStyle(
-              color: Color.fromARGB(255, 33, 33, 33),
-              fontSize: 16,
-            ),
-          ),
-          SizedBox(height: 30),
-          OutlinedButton.icon(
-            onPressed: startQuiz, // Start the quiz when button is pressed
-            style:
-                OutlinedButton.styleFrom(foregroundColor: Colors.purpleAccent),
-            icon: Icon(Icons.arrow_right),
-            label: Text("Let's Go"),
-          )
-        ],
+      child: ElevatedButton(
+        onPressed: startQuiz, // Trigger the startQuiz callback when pressed
+        style: ElevatedButton.styleFrom(
+          padding: EdgeInsets.symmetric(
+              vertical: 12.0, horizontal: 24.0), // Button padding
+        ),
+        child: Text(
+          'Start Quiz', // Button text
+          style: TextStyle(fontSize: 18), // Button text styling
+        ),
       ),
     );
   }

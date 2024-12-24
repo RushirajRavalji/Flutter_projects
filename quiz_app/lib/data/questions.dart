@@ -1,8 +1,9 @@
 import 'package:quiz_app/models/quiz_questions.dart';
 
+// A list of questions used in the quiz app.
 const questions = [
   QuizQuestions(
-    'What are the main building blocks of flutter UI ?',
+    'What are the main building blocks of Flutter UI?',
     ['Widgets', 'Components', 'Blocks', 'Functions'],
   ),
   QuizQuestions(
@@ -20,5 +21,5 @@ const questions = [
   QuizQuestions(
     'Which method is called to start the execution of a Flutter app?',
     ['main()', 'runApp()', 'initState()', 'build()'],
-  )
+  ),
 ];
