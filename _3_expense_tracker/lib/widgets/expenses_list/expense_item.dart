@@ -1,38 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:_3_expense_tracker/models/model_expense.dart';
+import 'package:_3_expense_tracker/models/expense.dart';
 
 class ExpenseItem extends StatelessWidget {
-  const ExpenseItem({super.key, required this.modelExpense});
+  const ExpenseItem({super.key, required this.expense});
 
-  final ModelExpense modelExpense;
+  final Expense expense;
 
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: const Color.fromARGB(36, 255, 255, 255),
+      elevation: 0,
       child: Column(
         children: [
           Padding(
             padding:
-                const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
+                const EdgeInsets.symmetric(horizontal: 20.0, vertical: 9.0),
             child: Column(
               children: [
-                Text(modelExpense.title),
-                const SizedBox(
-                  height: 4,
-                ),
+                Text(expense.title),
+                const SizedBox(height: 4),
                 Row(
                   children: [
                     Row(
                       children: [
-                        const Icon(Icons.cloud_circle),
+                        Icon(categoryIcons[expense.category]),
                         const SizedBox(width: 8),
-                        Text(
-                          modelExpense.date.toString(),
-                        ),
+                        Text(expense.formattedDate),
                       ],
                     ),
                     const Spacer(),
-                    Text('₹${modelExpense.amount.toStringAsFixed(2)}'),
+                    Text('₹${expense.amount.toStringAsFixed(2)}'),
                   ],
                 ),
               ],

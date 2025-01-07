@@ -1,5 +1,6 @@
 import 'package:_3_expense_tracker/widgets/expenses_list/expenses_list.dart';
-import 'package:_3_expense_tracker/models/model_expense.dart';
+import 'package:_3_expense_tracker/models/expense.dart';
+import 'package:_3_expense_tracker/widgets/new_expense.dart';
 import 'package:flutter/material.dart';
 
 class Expenses extends StatefulWidget {
@@ -10,34 +11,66 @@ class Expenses extends StatefulWidget {
 }
 
 class _ExpensesState extends State<Expenses> {
-  final List<ModelExpense> _registeredExpenses = [
-    ModelExpense(
+  final List<Expense> _registeredExpenses = [
+    Expense(
       title: 'Fuel',
       amount: 500,
       date: DateTime.now(),
       category: Category.travel,
     ),
-    ModelExpense(
+    Expense(
       title: 'Dinner',
       amount: 1500,
       date: DateTime.now(),
       category: Category.food,
     ),
-    ModelExpense(
+    Expense(
       title: 'Flutter Course',
       amount: 550,
       date: DateTime.now(),
       category: Category.work,
     ),
   ];
+
+  void _openAddExpenseOverlay() {
+    showModalBottomSheet(
+      context: context,
+      builder: (ctx) => NewExpense(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Color.fromARGB(255, 76, 210, 170),
+              Color.fromARGB(168, 0, 0, 0)
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
         child: Column(
           children: [
-            const Text("C H A R T S"),
-            Expanded(child: ExpensesList(expenses: _registeredExpenses))
+            AppBar(
+              actions: [
+                IconButton(
+                  onPressed: _openAddExpenseOverlay,
+                  icon: Icon(Icons.add),
+                ),
+              ],
+              title: const Text(
+                'Expensoo',
+                style: TextStyle(),
+              ),
+              backgroundColor: const Color.fromARGB(36, 255, 255, 255),
+            ),
+            const SizedBox(height: 8),
+            const Text("E X P E N S E S"),
+            Expanded(child: ExpensesList(expenses: _registeredExpenses)),
           ],
         ),
       ),
