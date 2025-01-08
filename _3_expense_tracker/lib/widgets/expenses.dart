@@ -45,10 +45,7 @@ class _ExpensesState extends State<Expenses> {
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [
-              Color.fromARGB(255, 76, 210, 170),
-              Color.fromARGB(168, 0, 0, 0)
-            ],
+            colors: [Colors.transparent, Color.fromARGB(168, 0, 0, 0)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
