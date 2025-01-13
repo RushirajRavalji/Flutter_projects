@@ -1,0 +1,172 @@
+---
+
+### 1. **Basic Structure of a Flutter App**
+
+The app begins with a `main.dart` file that initializes the Flutter application and sets up the main UI layout.
+
+```dart
+dart
+Copy code
+// main.dart
+import 'package:flutter/material.dart'; // Importing Material library for UI components
+import 'gradient_container.dart'; // Importing the custom GradientContainer widget
+
+void main() {
+  runApp(
+    MaterialApp(
+      // Entry point of the app with Material Design features
+      home: Scaffold(
+        // Provides the visual layout structure
+        body: GradientContainer(), // Embeds GradientContainer as the app's main content
+      ),
+    ),
+  );
+}
+
+```
+
+- **Explanation**:
+    - `MaterialApp`: Wraps the app with Material Design features.
+    - `Scaffold`: Provides a basic app structure.
+    - `GradientContainer`: A custom widget used to create a gradient background.
+
+---
+
+### 2. **Creating the Gradient Background**
+
+The gradient background is defined in the `gradient_container.dart` file. This file houses a stateless widget that displays a linear gradient and centers the `DiceRoller` widget.
+
+```dart
+dart
+Copy code
+// gradient_container.dart
+import 'package:flutter/material.dart';
+import 'package:rolldice/dice_roller.dart'; // Importing the DiceRoller widget
+
+class GradientContainer extends StatelessWidget {
+  const GradientContainer({super.key}); // Constructor for the widget
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            Color.fromARGB(255, 241, 188, 109), // Orange-yellow color
+            Color.fromARGB(255, 241, 234, 109), // Light yellow color
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+      ),
+      child: Center(
+        child: DiceRoller(), // Embeds the DiceRoller widget as the child
+      ),
+    );
+  }
+}
+
+```
+
+- **Highlights**:
+    - `BoxDecoration`: Adds decoration to the `Container` widget.
+    - `LinearGradient`: Creates a smooth transition between the specified colors.
+    - `Center`: Centers the `DiceRoller` widget within the gradient.
+
+---
+
+### 3. **Understanding Widgets in Flutter**
+
+In Flutter, widgets are categorized as:
+
+- **Stateful Widgets**: Dynamic widgets where state (data) can change, triggering a UI update.
+- **Stateless Widgets**: Static widgets where the UI does not change after the widget is built.
+
+Here, `GradientContainer` is a **Stateless Widget**, while the `DiceRoller` widget is a **Stateful Widget**, as its state changes when the dice is rolled.
+
+---
+
+### 4. **Building the Dice Roller Logic**
+
+The `dice_roller.dart` file contains the core logic for rolling the dice.
+
+```dart
+dart
+Copy code
+// dice_roller.dart
+import 'package:flutter/material.dart';
+import 'dart:math'; // Importing Random class for generating random numbers
+
+final randomizer = Random(); // Instance of Random to generate dice rolls
+
+class DiceRoller extends StatefulWidget {
+  const DiceRoller({super.key}); // Constructor for the widget
+
+  @override
+  State<DiceRoller> createState() => _DiceRollerState();
+}
+
+class _DiceRollerState extends State<DiceRoller> {
+  var currentDiceRoll = 2; // Default dice value
+
+  void rollDice() {
+    setState(() {
+      currentDiceRoll = randomizer.nextInt(6) + 1; // Random number between 1 and 6
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min, // Shrinks column to fit children
+      children: [
+        Image.asset(
+          'lib/assets/images/dice-images/dice-$currentDiceRoll.png',
+          width: 200, // Dice image width
+        ),
+        const SizedBox(height: 20), // Space between dice and button
+        TextButton(
+          onPressed: rollDice, // Calls rollDice() when pressed
+          style: TextButton.styleFrom(
+            padding: const EdgeInsets.all(20),
+            foregroundColor: Colors.black,
+            textStyle: const TextStyle(fontSize: 28),
+          ),
+          child: const Text("Roll"), // Button text
+        ),
+      ],
+    );
+  }
+}
+
+```
+
+---
+
+### 5. **Key Features of the Dice Roller**
+
+1. **State Management**:
+    - `currentDiceRoll`: Stores the current dice value and updates with each roll.
+    - `setState`: Triggers a rebuild of the UI when the state changes.
+2. **Dice Image Logic**:
+    - Dice images are stored in the app's `assets` folder (e.g., `dice-1.png`, `dice-2.png`).
+    - The dice number is dynamically inserted into the image path:`'lib/assets/images/dice-images/dice-$currentDiceRoll.png'`.
+3. **Roll Button**:
+    - A `TextButton` is styled with padding, font size, and color.
+    - When pressed, it calls `rollDice()`, generating a random number between 1 and 6.
+
+---
+
+### 6. **How the App Works**
+
+1. The app initializes with a gradient background and a centered dice.
+2. When the "Roll" button is pressed:
+    - A random number between 1 and 6 is generated.
+    - The dice image corresponding to that number is displayed.
+3. The UI seamlessly updates to show the new dice face.
+
+---
+
+### Conclusion
+
+This roll-a-dice app demonstrates how to use both **stateless** and **stateful** widgets effectively in Flutter. It integrates interactive UI elements, state management, and custom styling to create a dynamic application. By following these steps, you can build a visually appealing and functional dice roller app while learning key Flutter concepts like widget hierarchy, state management, and UI design.
