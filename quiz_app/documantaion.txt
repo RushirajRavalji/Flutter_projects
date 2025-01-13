@@ -1,0 +1,696 @@
+## Table of Contents
+
+1. **Introduction**
+2. **Code Structure**
+
+3. **Detailed Explanation of Code Files**
+    - `main.dart`
+    - `questions_screen.dart`
+    - `questions_summary.dart`
+    - `quiz.dart`
+    - `results_screen.dart`
+    - `start_screen.dart`
+    - `data/questions.dart`
+    - `models/answer_button.dart`
+    - `models/quiz_questions.dart`
+4. **Flow of the Application**
+5. **Conclusion**
+
+---
+
+## 1. Introduction
+
+This documentation provides a comprehensive overview of the Quiz App, built using Flutter. The app features a simple user interface where users can answer questions and view their results. Each code file has a distinct purpose, contributing to the functionality of the app. This document details the purpose, structure, and logic of each code block to help developers understand and maintain the application.
+
+---
+
+## 2. Code Structure
+
+The directory structure of the app is as follows:
+
+```dart
+lib/
+   data/
+      questions.dart
+   models/
+      answer_button.dart
+      quiz_questions.dart
+   main.dart
+   questions_screen.dart
+   questions_summary.dart
+   quiz.dart
+   results_screen.dart
+   start_screen.dart
+```
+
+### Description of Directories and Files:
+
+- **lib/**: Contains all the Dart files for the app.
+    - **data/**: Stores the data-related files like questions.
+        - `questions.dart`: Contains the list of questions for the quiz.
+    - **models/**: Contains reusable models and widgets.
+        - `answer_button.dart`: A custom widget for answer buttons.
+        - `quiz_questions.dart`: A model representing a quiz question and its answers.
+    - **main.dart**: The entry point of the application.
+    - **questions_screen.dart**: Displays the questions and answer options.
+    - **questions_summary.dart**: Summarizes the user’s answers.
+    - **quiz.dart**: Manages the state and screens of the quiz.
+    - **results_screen.dart**: Displays the quiz results.
+    - **start_screen.dart**: The introductory screen of the quiz.
+
+---
+
+## 3. Detailed Explanation of Code Files
+
+### `main.dart`
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:quiz_app/quiz.dart';
+
+void main() {
+  runApp(QuizApp()); // Entry point of the application, running QuizApp widget
+}
+
+class QuizApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false, // Disable the debug banner
+      home: Quiz(), // Set the Quiz widget as the home screen
+    );
+  }
+}
+
+```
+
+**Purpose:**
+This is the entry point of the application. It initializes and runs the `QuizApp` widget.
+
+**Code Explanation:**
+
+```dart
+void main() {
+  runApp(QuizApp()); // Entry point of the application, running QuizApp widget
+}
+```
+
+- The `main()` function uses `runApp()` to launch the Flutter app.
+
+```dart
+class QuizApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false, // Disable the debug banner
+      home: Quiz(), // Set the Quiz widget as the home screen
+    );
+  }
+}
+```
+
+- `QuizApp` is a stateless widget that defines the main structure of the app.
+- `MaterialApp` is configured to remove the debug banner and set the `Quiz` widget as the home screen.
+
+---
+
+### `questions_screen.dart`
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:quiz_app/models/answer_button.dart';
+import 'package:quiz_app/data/questions.dart';
+
+class QuestionsScreen extends StatefulWidget {
+  final void Function(String answer)
+      onSelectedAnswer; // Callback function to handle answer selection
+
+  const QuestionsScreen({Key? key, required this.onSelectedAnswer})
+      : super(key: key);
+
+  @override
+  _QuestionsScreenState createState() => _QuestionsScreenState();
+}
+
+class _QuestionsScreenState extends State<QuestionsScreen> {
+  int currentQuestionIndex = 0; // Tracks the index of the current question
+  List<String> shuffledAnswers =
+      []; // Holds shuffled answers for the current question
+
+  @override
+  void initState() {
+    super.initState();
+    shuffledAnswers = questions[currentQuestionIndex]
+        .getShuffledAnswers(); // Initialize shuffled answers for the first question
+  }
+
+  void answerQuestion(String selectedAnswer) {
+    widget.onSelectedAnswer(
+        selectedAnswer); // Pass selected answer to the parent widget
+    if (currentQuestionIndex < questions.length - 1) {
+      setState(() {
+        currentQuestionIndex++; // Move to the next question
+        shuffledAnswers = questions[currentQuestionIndex]
+            .getShuffledAnswers(); // Shuffle answers for the next question
+      });
+    } else {
+      print('Quiz finished!'); // Log when all questions are answered
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final currentQuestion =
+        questions[currentQuestionIndex]; // Get the current question
+
+    return SizedBox(
+      width: double.infinity, // Take full screen width
+      child: Padding(
+        padding: const EdgeInsets.all(40.0),
+        child: Center(
+          child: Column(
+            mainAxisAlignment:
+                MainAxisAlignment.center, // Center elements vertically
+            crossAxisAlignment: CrossAxisAlignment
+                .stretch, // Stretch elements to fill horizontal space
+            children: [
+              SingleChildScrollView(
+                scrollDirection:
+                    Axis.horizontal, // Allow horizontal scrolling if needed
+                child: Text(
+                  currentQuestion.text, // Display question text
+                  style: TextStyle(fontSize: 20), // Set font size
+                  textAlign: TextAlign.center, // Center align text
+                ),
+              ),
+              SizedBox(height: 30), // Add spacing
+              ...shuffledAnswers.map((item) {
+                // Create answer buttons dynamically
+                return AnswerButton(
+                  answerText: item, // Set the button text to the answer
+                  onTap: () => answerQuestion(
+                      item), // Pass selected answer to the handler
+                );
+              }).toList(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+```
+
+**Purpose:**
+Handles the display of questions and answers, allowing users to select an answer.
+
+**Code Explanation:**
+
+```dart
+class QuestionsScreen extends StatefulWidget {
+  final void Function(String answer) onSelectedAnswer;
+
+  const QuestionsScreen({Key? key, required this.onSelectedAnswer}) : super(key: key);
+
+  @override
+  _QuestionsScreenState createState() => _QuestionsScreenState();
+}
+```
+
+- This screen is stateful, allowing it to track the current question and shuffled answers.
+- The `onSelectedAnswer` callback communicates the selected answer to the parent widget.
+
+```dart
+void answerQuestion(String selectedAnswer) {
+  widget.onSelectedAnswer(selectedAnswer);
+  if (currentQuestionIndex < questions.length - 1) {
+    setState(() {
+      currentQuestionIndex++;
+      shuffledAnswers = questions[currentQuestionIndex].getShuffledAnswers();
+    });
+  } else {
+    print('Quiz finished!');
+  }
+}
+```
+
+- `answerQuestion` is called when a user selects an answer.
+- It updates the `currentQuestionIndex` and shuffles answers for the next question.
+
+```dart
+@override
+Widget build(BuildContext context) {
+  final currentQuestion = questions[currentQuestionIndex];
+  return SizedBox(
+    width: double.infinity,
+    child: Padding(
+      padding: const EdgeInsets.all(40.0),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Text(
+                currentQuestion.text,
+                style: TextStyle(fontSize: 20),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            SizedBox(height: 30),
+            ...shuffledAnswers.map((item) {
+              return AnswerButton(
+                answerText: item,
+                onTap: () => answerQuestion(item),
+              );
+            }).toList(),
+          ],
+        ),
+      ),
+    ),
+  );
+}
+```
+
+- The UI consists of a question text and dynamically generated answer buttons.
+
+---
+
+### `questions_summary.dart`
+
+**Purpose:**
+Displays a summary of all questions, including the user’s answers and correct answers.
+
+**Code Explanation:**
+
+```dart
+import 'package:flutter/cupertino.dart';
+
+class QuestionsSummary extends StatelessWidget {
+  final List<Map<String, dynamic>>
+      summaryData; // Summary data containing question, user answer, and correct answer
+
+  QuestionsSummary({Key? key, required this.summaryData}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: summaryData.map((question) {
+        // Iterate through summary data
+        return Padding(
+          padding:
+              const EdgeInsets.symmetric(vertical: 8.0), // Add vertical padding
+          child: Row(
+            children: [
+              Text(
+                question['question_index'].toString(), // Display question index
+                style: TextStyle(fontWeight: FontWeight.bold), // Bold text
+              ),
+              SizedBox(width: 8), // Spacing between elements
+              Column(
+                crossAxisAlignment:
+                    CrossAxisAlignment.start, // Align text to the start
+                children: [
+                  Text(question['questions']
+                      .toString()), // Display question text
+                  SizedBox(height: 5), // Add spacing
+                  Text(
+                      'Your Answer: ${question['user_answers']}'), // Display user's answer
+                  Text(
+                      'Correct Answer: ${question['correct_answers']}'), // Display correct answer
+                ],
+              )
+            ],
+          ),
+        );
+      }).toList(), // Convert iterable to a list of widgets
+    );
+  }
+}
+
+```
+
+- The `summaryData` is a list of maps containing the question index, text, user’s answer, and correct answer.
+- Each question is displayed with its details in a column layout.
+
+---
+
+### `quiz.dart`
+
+**Purpose:**
+This file manages the core logic of the quiz, including switching between different screens (`start-screen`, `questions-screen`, and `results-screen`) and tracking the user's selected answers.
+
+**Code Explanation:**
+
+```dart
+dart
+Copy code
+class Quiz extends StatefulWidget {
+  const Quiz({super.key});
+
+  @override
+  State<Quiz> createState() => _QuizState();
+}
+
+```
+
+- `Quiz` is a `StatefulWidget` that represents the main structure of the quiz.
+- The widget has an associated state class `_QuizState` which handles the dynamic behavior of the app.
+
+```dart
+dart
+Copy code
+class _QuizState extends State<Quiz> {
+  List<String> selectedAnswers = []; // Tracks selected answers
+  var activeScreen = 'start-screen'; // Tracks the active screen
+}
+
+```
+
+- `selectedAnswers` stores the answers chosen by the user.
+- `activeScreen` keeps track of the current screen (either the start screen, questions screen, or results screen).
+
+```dart
+dart
+Copy code
+void switchScreen() {
+  setState(() {
+    selectedAnswers = []; // Reset answers when switching
+    activeScreen = 'questions-screen'; // Set active screen to question screen
+  });
+}
+
+```
+
+- `switchScreen` changes the active screen to `questions-screen` and resets any previously selected answers.
+
+```dart
+dart
+Copy code
+void chooseAnswer(String answer) {
+  setState(() {
+    selectedAnswers.add(answer); // Add selected answer
+    if (selectedAnswers.length == questions.length) {
+      activeScreen = 'results-screen'; // Navigate to results screen after last question
+    }
+  });
+}
+
+```
+
+- `chooseAnswer` is called when the user selects an answer. It adds the selected answer to the list and switches to the results screen once all questions are answered.
+
+```dart
+dart
+Copy code
+void restartQuiz() {
+  setState(() {
+    selectedAnswers = []; // Clear previous answers
+    activeScreen = 'start-screen'; // Reset to start screen
+  });
+}
+
+```
+
+- `restartQuiz` resets the quiz, clearing the selected answers and navigating back to the start screen.
+
+```dart
+dart
+Copy code
+@override
+Widget build(BuildContext context) {
+  Widget screenWidget = StartScreen(switchScreen); // Default to start screen
+  if (activeScreen == 'questions-screen') {
+    screenWidget = QuestionsScreen(
+        onSelectedAnswer: chooseAnswer); // Display question screen
+  } else if (activeScreen == 'results-screen') {
+    screenWidget = ResultsScreen(
+        chosenAnswers: selectedAnswers,
+        onRestart: restartQuiz); // Display results screen
+  }
+
+  return MaterialApp(
+    debugShowCheckedModeBanner: false, // Disable debug banner
+    home: Scaffold(
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Color.fromARGB(255, 199, 246, 226),
+              Color.fromARGB(255, 178, 235, 217),
+            ],
+            begin: Alignment.topCenter, // Gradient starts at the top
+            end: Alignment.bottomCenter, // Gradient ends at the bottom
+          ),
+        ),
+        child: screenWidget, // Display active screen
+      ),
+    ),
+  );
+}
+
+```
+
+- The `build` method dynamically switches between screens (`StartScreen`, `QuestionsScreen`, `ResultsScreen`) based on the current `activeScreen`.
+- The background is styled with a gradient, and the selected screen widget is displayed inside a `Scaffold`.
+
+---
+
+### `results_screen.dart`
+
+**Purpose:**
+This file handles the results screen, displaying the user's total score and a detailed summary of their answers compared to the correct ones.
+
+**Code Explanation:**
+
+```dart
+dart
+Copy code
+class ResultsScreen extends StatelessWidget {
+  const ResultsScreen({
+    Key? key,
+    required this.chosenAnswers, // List of answers chosen by the user
+    required this.onRestart, // Callback to restart the quiz
+  }) : super(key: key);
+
+```
+
+- `ResultsScreen` is a `StatelessWidget` that receives `chosenAnswers` (the list of answers selected by the user) and `onRestart` (a function to restart the quiz) as parameters.
+
+```dart
+dart
+Copy code
+List<Map<String, dynamic>> getSummaryData() {
+  final List<Map<String, dynamic>> summary = [];
+  for (var i = 0; i < chosenAnswers.length; i++) {
+    summary.add({
+      'question_index': i + 1, // Add 1 to make it 1-based indexing
+      'questions': questions[i].text, // The question text
+      'correct_answers': questions[i].answers[0], // First answer is assumed to be correct
+      'user_answers': chosenAnswers[i], // User's selected answer
+    });
+  }
+  return summary;
+}
+
+```
+
+- `getSummaryData` prepares the summary data by comparing the user's answers to the correct ones.
+- Each question is stored as a map containing the question index, text, correct answer, and user's answer.
+
+```dart
+dart
+Copy code
+@override
+Widget build(BuildContext context) {
+  return SizedBox(
+    width: double.infinity, // Occupy full screen width
+    child: Padding(
+      padding: const EdgeInsets.all(40.0), // Add consistent padding
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center, // Center vertically
+        children: [
+          // Display the total correct answers compared to total questions
+          Text('You answered x out of y correctly.'),
+          SizedBox(height: 30), // Add vertical space
+          QuestionsSummary(
+              summaryData: getSummaryData()), // Display the question summary widget
+          SizedBox(height: 30), // Add vertical space
+          TextButton(
+            onPressed: onRestart, // Call restart function on button press
+            child: Text('Restart quiz'), // Button label
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+```
+
+- The `build` method displays the user's score and a `QuestionsSummary` widget showing a detailed list of questions, user answers, and correct answers.
+- A button is provided to restart the quiz.
+
+---
+
+### `start_screen.dart`
+
+**Purpose:**
+This file defines the start screen of the quiz app, where the user can begin the quiz by pressing a button.
+
+**Code Explanation:**
+
+```dart
+dart
+Copy code
+class StartScreen extends StatelessWidget {
+  const StartScreen(this.startQuiz, {Key? key});
+
+  final void Function() startQuiz; // The callback function to start the quiz
+
+```
+
+- `StartScreen` is a stateless widget that takes `startQuiz` as a parameter, which is the callback function that triggers the start of the quiz.
+
+```dart
+dart
+Copy code
+@override
+Widget build(BuildContext context) {
+  return Center(
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Image.asset('assets/images/quiz-logo.png', width: 250),
+        SizedBox(height: 80),
+        Text("Let's Learn Flutter", style: TextStyle(fontSize: 16)),
+        SizedBox(height: 30),
+        OutlinedButton.icon(
+          onPressed: startQuiz,
+          style: OutlinedButton.styleFrom(foregroundColor: Colors.purpleAccent),
+          icon: Icon(Icons.arrow_right),
+          label: Text("Let's Go"),
+        )
+      ],
+    ),
+  );
+}
+
+```
+
+- The `build` method returns a UI with a centered image, a welcoming text, and a button that starts the quiz when pressed.
+- The `OutlinedButton.icon` widget is used to create a button with an icon and a label.
+
+---
+
+### `data/questions.dart`
+
+**Purpose:**
+This file contains the list of questions used in the quiz.
+
+**Code Explanation:**
+
+```dart
+dart
+Copy code
+const questions = [
+  QuizQuestions('What are the main building blocks of Flutter UI?', ['Widgets', 'Components', 'Blocks', 'Functions']),
+  QuizQuestions('Which language is primarily used for Flutter development?', ['Dart', 'JavaScript', 'Python', 'Swift']),
+  QuizQuestions('Which of the following is a type of widget in Flutter?', ['StatefulWidget', 'StatelessComponent', 'FunctionalWidget', 'LogicWidget']),
+  QuizQuestions('What is used to create cross-platform mobile apps with a single codebase in Flutter?', ['Flutter SDK', 'React Native', 'Xcode', 'Android Studio']),
+  QuizQuestions('Which method is called to start the execution of a Flutter app?', ['main()', 'runApp()', 'initState()', 'build()']),
+];
+
+```
+
+- `questions` is a list of `QuizQuestions` objects, where each question has a text and a list of possible answers.
+
+---
+
+### `models/answer_button.dart`
+
+**Purpose:**
+This file defines a custom button widget to represent an answer option in the quiz.
+
+**Code Explanation:**
+
+```dart
+dart
+Copy code
+class AnswerButton extends StatelessWidget {
+  const AnswerButton({
+    super.key,
+    required this.answerText, // The text to display on the button
+    required this.onTap, // Callback to handle button press
+  });
+
+  final String answerText;
+  final void Function() onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: onTap, // Trigger the onTap callback when the button is pressed
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 12.0),
+        child: Text(
+          answerText, // Display the answer text on the button
+          textAlign: TextAlign.center, // Center-align the text
+          overflow: TextOverflow.ellipsis, // Truncate text if it overflows
+          maxLines: 1, // Limit the text to a single line
+        ),
+      ),
+    );
+  }
+}
+
+```
+
+- `AnswerButton` is a custom widget that creates a styled button to represent an answer option.
+
+---
+
+### `models/quiz_questions.dart`
+
+**Purpose:**
+Defines the `QuizQuestions` model, representing a quiz question and its list of possible answers.
+
+**Code Explanation:**
+
+```dart
+dart
+Copy code
+class QuizQuestions {
+  final String text; // The question text
+  final List<String> answers; // The list of answers
+
+  QuizQuestions(this.text, this.answers);
+
+  List<String> getShuffledAnswers() {
+    final shuffled = List<String>.from(answers);
+    shuffled.shuffle(); // Shuffle the answers to randomize their order
+    return shuffled;
+  }
+}
+
+```
+
+- `QuizQuestions` holds the question text and its corresponding answers.
+- `getShuffledAnswers` returns the answers in a random order to ensure that the quiz is different every time.
+
+---
+
+## 4. Flow of the Application (Continued)
+
+1. **Start Screen:** Displays the starting point where users can begin the quiz.
+2. **Questions Screen:** Presents each question with answer options, dynamically shuffled for randomness.
+3. **Results Screen:** Shows the total score, individual question summary, and provides the option to restart the quiz.
+4. **Restart:** The user can restart the quiz at any time.
+
+---
+
+## 5. Conclusion (Continued)
+
+This application is structured with clear separation of concerns, ensuring maintainability and flexibility. The modular design makes it easy to expand or modify features, such as adding new question types or integrating a scoring system. The simple, clean interface ensures that the user experience is intuitive, while the dynamic handling of questions and answers keeps the quiz engaging.
