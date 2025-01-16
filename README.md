@@ -8,5 +8,7 @@ These are all the projects that i have created while learning flutter from scrat
 
 4. E-commerce (Anime merchandise)(ui) "https://github.com/RushirajRavalji/anime_merchandise" <br>
 
-5. Expenses Tracker<br>
+5. Todo app (https://github.com/RushirajRavalji/todo_app.git)<br>
+
+6. Expenses Tracker<br>
 
