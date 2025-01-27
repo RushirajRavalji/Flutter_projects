@@ -1,0 +1,319 @@
+# Roll Dice App Documentation
+
+1. Overview
+
+The Roll Dice app is a simple Flutter application that allows users to roll a dice with a button click. The dice face updates randomly from 1 to 6, and the app features a colorful gradient background. This app demonstrates key Flutter concepts like widgets, state management, and user interaction.
+
+2. File Structure
+
+project-root/
+|-- main.dart
+|-- gradient_container.dart
+|-- roll_dice.dart
+|-- lib/
+  File Structure
+
+project-root/
+|-- main.dart
+|-- gradient_container.dart
+|-- roll_dice.dart
+|-- lib/
+    |-- assets/
+        |-- images/
+            |-- dice-1.png
+            |-- dice-2.png
+            |-- dice-3.png
+            |-- dice-4.png
+            |-- dice-5.png
+            |-- dice-6.png
+
+3. File-by-File Explanation
+
+1. main.dart
+
+Code
+
+import 'package:flutter/material.dart';
+import 'gradient_container.dart';
+
+void main() {
+  runApp(
+    MaterialApp(
+      home: Scaffold(body: GradiendContainer()),
+    ),
+  );
+}
+
+Explanation
+
+Imports:
+
+flutter/material.dart: Provides essential widgets and classes for Flutter apps.
+
+gradient_container.dart: Imports the custom GradiendContainer widget.
+
+main() Function:
+
+Entry point of the app.
+
+Calls runApp() to start the app.
+
+The app is wrapped with a MaterialApp, and the home property is set to a Scaffold with a GradiendContainer as its body.
+
+Key Concepts
+
+runApp(): Bootstraps the application.
+
+MaterialApp: Wraps the entire app in Material Design.
+
+Scaffold: Provides a basic layout structure.
+
+2. gradient_container.dart
+
+Code  |-- assets/
+        |-- images/
+            |-- dice-1.png
+            |-- dice-2.png
+            |-- dice-3.png
+            |-- dice-4.png
+            |-- dice-5.png
+            |-- dice-6.png
+
+3. File-by-File Explanation
+
+1. main.dart
+
+Code
+
+import 'package:flutter/material.dart';
+import 'gradient_container.dart';
+
+void main() {
+  runApp(
+    MaterialApp(
+      home: Scaffold(body: GradiendContainer()),
+    ),
+  );
+}
+
+Explanation
+
+Imports:
+
+flutter/material.dart: Provides essential widgets and classes for Flutter apps.
+
+gradient_container.dart: Imports the custom GradiendContainer widget.
+
+main() Function:
+
+Entry point of the app.
+
+Calls runApp() to start the app.
+
+The app is wrapped with a MaterialApp, and the home property is set to a Scaffold with a GradiendContainer as its body.
+
+Key Concepts
+
+runApp(): Bootstraps the application.
+
+MaterialApp: Wraps the entire app in Material Design.
+
+Scaffold: Provides a basic layout structure.
+
+2. gradient_container.dart
+
+Code
+
+import 'package:flutter/material.dart';
+import 'package:rolldice/dice_roller.dart';
+
+var startAlignment = Alignment.topLeft;
+var endAlignment = Alignment.bottomRight;
+
+class GradiendContainer extends StatelessWidget {
+  const GradiendContainer({super.key});
+
+  @override
+  Widget build(context) {
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            Color.fromARGB(255, 241, 188, 109),
+            Color.fromARGB(255, 241, 234, 109),
+          ],
+          begin: startAlignment,
+          end: endAlignment,
+        ),
+      ),
+      child: Center(
+        child: diceRoller(),
+      ),
+    );
+  }
+}
+
+Explanation
+
+Imports:
+
+flutter/material.dart: For essential Flutter widgets.
+
+rolldice/dice_roller.dart: Imports the diceRoller widget.
+
+Global Variables:
+
+startAlignment and endAlignment control the start and end points of the gradient.
+
+GradiendContainer Class:
+
+A StatelessWidget that builds a container with a gradient background.
+
+It contains a child widget, diceRoller, centered in the container.
+
+Key Concepts:
+
+LinearGradient: Used to create a gradient background.
+
+BoxDecoration: Provides decoration for the container.
+
+StatelessWidget: Since the background does not change, it is a stateless widget.
+
+3. roll_dice.dart
+
+Code
+
+import 'package:flutter/material.dart';
+import 'dart:math';
+
+final randomizer = Random();
+
+class diceRoller extends StatefulWidget {
+  const diceRoller({super.key});
+
+  @override
+  State<diceRoller> createState() {
+    return _DiceRollerState();
+  }
+}
+
+class _DiceRollerState extends State<diceRoller> {
+  var currentDiceRoll = 2;
+
+  void rolldice() {
+    setState(() {
+      currentDiceRoll = randomizer.nextInt(6) + 1;
+    });
+  }
+
+  @override
+  Widget build(context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Image.asset(
+          'lib/assets/images/dice-images/dice-$currentDiceRoll.png',
+          width: 200,
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        TextButton(
+          onPressed: rolldice,
+          style: TextButton.styleFrom(
+              padding: EdgeInsets.all(20),
+              foregroundColor: Colors.black,
+              textStyle: TextStyle(fontSize: 28)),
+          child: Text("Roll"),
+        )
+      ],
+    );
+  }
+}
+
+Explanation
+
+Imports:
+
+flutter/material.dart: Provides core Flutter widgets.
+
+dart:math: Provides the Random class to generate random numbers.
+
+Global Variables:
+
+randomizer: An instance of the Random class to generate random numbers.
+
+diceRoller Class:
+
+A StatefulWidget because the state of the dice (its face) changes on user interaction.
+
+_DiceRollerState Class:
+
+Manages the state of the dice.
+
+Variables: currentDiceRoll holds the current dice face (1 to 6).
+
+rolldice(): Generates a random number between 1 and 6 and updates currentDiceRoll.
+
+build() Method:
+
+Image.asset(): Loads the image corresponding to the dice face.
+
+TextButton: Button with the label "Roll" that triggers the rolldice() function.
+
+Column: Vertically stacks the image, spacer, and button.
+
+Key Concepts
+
+StatefulWidget: Changes to the state (dice face) require rebuilding the widget.
+
+Random.nextInt(): Generates a random number from 0 to 5, so we add 1.
+
+Image.asset(): Loads images from the assets folder dynamically based on the dice face.
+
+4. Summary of Widgets and Concepts
+
+Concept
+
+Description
+
+runApp()
+
+Initializes the app.
+
+MaterialApp
+
+Material Design structure for the app.
+
+Scaffold
+
+Provides structure for the home screen.
+
+StatelessWidget
+
+Widget that does not change its state.
+
+StatefulWidget
+
+Widget that updates and changes on user interaction.
+
+setState()
+
+Updates the UI with new data (e.g., dice roll change).
+
+LinearGradient
+
+Background gradient for the container.
+
+5. Possible Improvements
+
+Code Organization: Extract colors, alignment, and dimensions into constants.
+
+Dice Images: Handle cases where image files are missing.
+
+Error Handling: Handle errors gracefully, such as invalid image paths.
+
+6. Conclusion
+
+This Roll Dice app provides a simple, fun way to explore Flutter concepts like widgets, stateful widgets, user interaction, and randomness. The app uses three key files: main.dart, gradient_container.dart, and roll_dice.dart. It demonstrates how to create a visually appealing app with gradient backgrounds, dynamic image updates, and user-triggered state changes. This foundation can be expanded with additional features, like animations or multiple dice rolls.
+
