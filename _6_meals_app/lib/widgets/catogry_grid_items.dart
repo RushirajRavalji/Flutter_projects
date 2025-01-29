@@ -1,4 +1,3 @@
-import 'package:_6_meals_app/main.dart';
 import 'package:_6_meals_app/models/category.dart';
 import 'package:flutter/material.dart';
 

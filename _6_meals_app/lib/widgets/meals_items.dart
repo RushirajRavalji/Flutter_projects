@@ -1,14 +1,28 @@
-import 'package:_6_meals_app/models/meal.dart';
 import 'package:flutter/material.dart';
 import 'package:transparent_image/transparent_image.dart';
+import 'package:_6_meals_app/models/meal.dart';
+import 'package:_6_meals_app/widgets/meal_item_trait.dart';
 
 class MealsItems extends StatelessWidget {
   const MealsItems({super.key, required this.meal});
 
   final Meal meal;
 
+  String get ComplexityText {
+    return meal.complexity.name[0].toUpperCase() +
+        meal.complexity.name.substring(1);
+  }
+
+  String get affordabilityText {
+    return meal.affordability.name[0].toUpperCase() +
+        meal.affordability.name.substring(1);
+  }
+
   @override
   Widget build(BuildContext context) {
+    final Size screenSize = MediaQuery.of(context).size;
+    final bool isThin = screenSize.width / screenSize.height < 0.5;
+
     return Card(
       margin: const EdgeInsets.all(8),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
@@ -46,12 +60,37 @@ class MealsItems extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                           color: Colors.white),
                     ),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    const Row(
-                      children: [],
-                    )
+                    const SizedBox(height: 12),
+                    if (isThin) ...[
+                      Column(
+                        children: [
+                          MealItemTrait(
+                              icon: Icons.schedule,
+                              label: '${meal.duration} min'),
+                          const SizedBox(height: 8),
+                          MealItemTrait(
+                              icon: Icons.work, label: ComplexityText),
+                          const SizedBox(height: 8),
+                          MealItemTrait(
+                              icon: Icons.money, label: affordabilityText),
+                        ],
+                      ),
+                    ] else ...[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          MealItemTrait(
+                              icon: Icons.schedule,
+                              label: '${meal.duration} min'),
+                          const SizedBox(width: 12),
+                          MealItemTrait(
+                              icon: Icons.work, label: ComplexityText),
+                          const SizedBox(width: 12),
+                          MealItemTrait(
+                              icon: Icons.money, label: affordabilityText),
+                        ],
+                      ),
+                    ]
                   ],
                 ),
               ),
