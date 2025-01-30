@@ -4,11 +4,12 @@ import 'package:_6_meals_app/models/meal.dart';
 import 'package:_6_meals_app/widgets/meal_item_trait.dart';
 
 class MealsItems extends StatelessWidget {
-  const MealsItems({super.key, required this.meal});
+  const MealsItems({super.key, required this.meal, required this.onSelectMeal});
 
   final Meal meal;
+  final void Function(BuildContext context, Meal meal) onSelectMeal;
 
-  String get ComplexityText {
+  String get complexityText {
     return meal.complexity.name[0].toUpperCase() +
         meal.complexity.name.substring(1);
   }
@@ -29,7 +30,9 @@ class MealsItems extends StatelessWidget {
       clipBehavior: Clip.hardEdge,
       elevation: 2,
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          onSelectMeal(context, meal);
+        },
         child: Stack(
           children: [
             FadeInImage(
@@ -69,7 +72,7 @@ class MealsItems extends StatelessWidget {
                               label: '${meal.duration} min'),
                           const SizedBox(height: 8),
                           MealItemTrait(
-                              icon: Icons.work, label: ComplexityText),
+                              icon: Icons.work, label: complexityText),
                           const SizedBox(height: 8),
                           MealItemTrait(
                               icon: Icons.money, label: affordabilityText),
@@ -84,7 +87,7 @@ class MealsItems extends StatelessWidget {
                               label: '${meal.duration} min'),
                           const SizedBox(width: 12),
                           MealItemTrait(
-                              icon: Icons.work, label: ComplexityText),
+                              icon: Icons.work, label: complexityText),
                           const SizedBox(width: 12),
                           MealItemTrait(
                               icon: Icons.money, label: affordabilityText),
