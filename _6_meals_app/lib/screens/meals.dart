@@ -10,6 +10,7 @@ class MealsScreen extends StatelessWidget {
   final List<Meal> meals;
 
   void selectMeal(BuildContext context, Meal meal) {
+    // Navigator.of(context).pop();// Can redirect directly to the main screen
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (ctx) => MealsDetailsScreen(meal: meal),
