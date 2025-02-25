@@ -1,3 +1,4 @@
+import 'package:_6_meals_app/widgets/main_drawer.dart';
 import 'package:flutter/material.dart';
 
 class FiltersScreen extends StatefulWidget {
@@ -16,7 +17,10 @@ class _FiltersScreenState extends State<FiltersScreen> {
       appBar: AppBar(
         title: const Text('Your Filters'),
       ),
-      body: Column(  
+      drawer: MainDrawer(onSelectScreen: (identifier) {
+        Navigator.of(context).pop();
+      }),
+      body: Column(
         children: [
           SwitchListTile(
             value: _glutenFreeFilterSet,
