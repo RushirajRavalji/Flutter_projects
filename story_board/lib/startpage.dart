@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:namer_app/stories/story1.dart';
+import 'package:namer_app/stories/story2.dart';
+import 'package:namer_app/stories/story3.dart';
 
 class Startpage extends StatelessWidget {
   const Startpage({super.key});
@@ -10,8 +12,8 @@ class Startpage extends StatelessWidget {
       padding: const EdgeInsets.all(20),
       children: [
         _storyCard(context, "The Brave Little Squirrel 🐿️", Story1()),
-        _storyCard(context, "The Magical Paintbrush 🎨", Story1()),
-        _storyCard(context, " The Lion and the Clever Rabbit 🦁🐰", Story1()),
+        _storyCard(context, "The Clever Rabbit 🐇", Story2()),
+        _storyCard(context, "The Honest Woodcutter 🪓", Story3()),
       ],
     );
   }
@@ -36,7 +38,7 @@ class Startpage extends StatelessWidget {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => Story1()),
+          MaterialPageRoute(builder: (context) => page), // Use 'page' here!
         );
       },
     );

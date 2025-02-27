@@ -16,12 +16,12 @@ class Fav extends StatelessWidget {
             padding: const EdgeInsets.all(30),
             margin: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: Colors.green,
+              color: Colors.brown,
               borderRadius: BorderRadius.circular(8),
               border: Border.all(color: Colors.black, width: 3),
             ),
             child: const Text(
-              "Story - 1",
+              "The Brave Little Squirrel 🐿️",
               style: TextStyle(fontSize: 20, color: Color(0xffF2F6D0)),
             ),
           ),
