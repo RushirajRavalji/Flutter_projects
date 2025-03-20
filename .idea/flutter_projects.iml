@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/_3_expense_tracker/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/_3_expense_tracker/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/_3_expense_tracker/build" />
+      <excludeFolder url="file://$MODULE_DIR$/_4_notes_app/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/_4_notes_app/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/_4_notes_app/build" />
+      <excludeFolder url="file://$MODULE_DIR$/_5_todo/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/_5_todo/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/_5_todo/build" />
+      <excludeFolder url="file://$MODULE_DIR$/_6_meals_app/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/_6_meals_app/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/_6_meals_app/build" />
+      <excludeFolder url="file://$MODULE_DIR$/_6_meals_app/linux/flutter/ephemeral/.plugin_symlinks/path_provider_linux/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/_6_meals_app/linux/flutter/ephemeral/.plugin_symlinks/path_provider_linux/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/_6_meals_app/linux/flutter/ephemeral/.plugin_symlinks/path_provider_linux/build" />
+      <excludeFolder url="file://$MODULE_DIR$/_6_meals_app/linux/flutter/ephemeral/.plugin_symlinks/path_provider_linux/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/_6_meals_app/linux/flutter/ephemeral/.plugin_symlinks/path_provider_linux/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/_6_meals_app/linux/flutter/ephemeral/.plugin_symlinks/path_provider_linux/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/_6_meals_app/windows/flutter/ephemeral/.plugin_symlinks/path_provider_windows/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/_6_meals_app/windows/flutter/ephemeral/.plugin_symlinks/path_provider_windows/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/_6_meals_app/windows/flutter/ephemeral/.plugin_symlinks/path_provider_windows/build" />
+      <excludeFolder url="file://$MODULE_DIR$/_6_meals_app/windows/flutter/ephemeral/.plugin_symlinks/path_provider_windows/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/_6_meals_app/windows/flutter/ephemeral/.plugin_symlinks/path_provider_windows/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/_6_meals_app/windows/flutter/ephemeral/.plugin_symlinks/path_provider_windows/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/firstapp/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/firstapp/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/firstapp/build" />
+      <excludeFolder url="file://$MODULE_DIR$/nottoo/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/nottoo/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/nottoo/build" />
+      <excludeFolder url="file://$MODULE_DIR$/quiz_app/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/quiz_app/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/quiz_app/build" />
+      <excludeFolder url="file://$MODULE_DIR$/rolldice/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/rolldice/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/rolldice/build" />
+      <excludeFolder url="file://$MODULE_DIR$/story_board/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/story_board/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/story_board/build" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Dart SDK" level="project" />
+    <orderEntry type="library" name="Dart Packages" level="project" />
+  </component>
+</module>
